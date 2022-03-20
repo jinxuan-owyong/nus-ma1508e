@@ -11,18 +11,33 @@ classdef MA1508E
             b = A * inv(A'*A) * A' * u;
         end
         
-        function isOrthogonalSet(~, S)
+        function res = isOrthogonalSet(~, S)
             [~, w] = size(S);
             for i = 1:w
                 for j = i:w
                     if (i == j) continue; end
                     if dot(S(:, i), S(:, j)) ~= 0
                         fprintf("The set is not orthogonal\n");
+                        res = false;
                         return
                     end
                 end
             end
                 fprintf("The set is orthogonal\n");
+                res = true;
+        end
+        
+        function isOrthonormalSet(obj, S)  
+            if (~obj.isOrthogonalSet(S)) return; end
+            
+            [~, w] = size(S);
+            for i = 1:w
+                if (norm(S(:, i)) ~= 1)
+                    fprintf("The set is not orthonormal\n");
+                    return
+                end
+            end
+            fprintf("The set is orthonormal\n");
         end
         
         function isOrthogonalTo(~, M, target)
