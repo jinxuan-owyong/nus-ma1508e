@@ -32,7 +32,7 @@ classdef MA1508E
             
             [~, w] = size(S);
             for i = 1:w
-                if (norm(S(:, i)) ~= 1)
+                if (abs(norm(S(:, i)) - 1) >= 0.00001)
                     fprintf("The set is not orthonormal\n");
                     return
                 end
