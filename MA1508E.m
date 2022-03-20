@@ -1,6 +1,6 @@
 classdef MA1508E
     methods
-        function b = orthoProj(~, A, u)
+        function b = orthogonalProj(~, A, u)
             %A: The matrix to be projected onto
             %u: The vector to project
             %Returns: The projection of u onto A
@@ -40,12 +40,12 @@ classdef MA1508E
             fprintf("The set is orthonormal\n");
         end
         
-        function isOrthogonalTo(~, M, target)
+        function isOrthogonalTo(~, S, target)
             %M: The matrix containing the set of vectors to check against
             %target: The vector to check if orthogonal
-            [~, w] = size(M);
+            [~, w] = size(S);
             for i = 1:w
-                if dot(M(:, i), target) ~= 0
+                if dot(S(:, i), target) ~= 0
                     fprintf("The vector is not orthogonal to the matrix\n");
                     return
                 end
@@ -56,7 +56,7 @@ classdef MA1508E
         function [u,r] = gramSchmidt(~, v)
             %Reference: https://arxiv.org/ftp/arxiv/papers/1607/1607.04759.pdf
             %Input:   v - m x n matrix of vectors 
-            %Returns: u - m x n matrix of orthonormal vectors
+            %Returns: u - m x n matrix of orthogonal vectors1
             %         r - n x n matrix 
             [~,N] = size(v);
             u(:,1) = v(:,1);
