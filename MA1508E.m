@@ -52,5 +52,25 @@ classdef MA1508E
             end
             fprintf("The vector is orthogonal to the matrix\n");
         end  
+        
+        function [u,r] = gramSchmidt(~, v)
+            %Reference: https://arxiv.org/ftp/arxiv/papers/1607/1607.04759.pdf
+            %Input:   v - m x n matrix of vectors 
+            %Returns: u - m x n matrix of orthonormal vectors
+            %         r - n x n matrix 
+            [~,N] = size(v);
+            u(:,1) = v(:,1);
+            r = eye(N,N); % eye(•) is a built-in function of MATLAB®
+            for n = 2:N % eye(•) represents identity matrix
+                acu = 0;
+                for m = 1:n-1
+                    num = dot(v(:,n),u(:,m)); % dot(•,•) represents inner product of vectors in MATLAB®
+                    den = dot(u(:,m),u(:,m)); % dot(•,•) is a built-in function of MATLAB®
+                    r(n,m) = num/den;
+                    acu = acu + r(n,m)*u(:,m);
+                end
+             u(:,n) = v(:,n) - acu;
+            end
+        end
     end
 end
