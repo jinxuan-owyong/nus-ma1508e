@@ -72,5 +72,13 @@ classdef MA1508E
              u(:,n) = v(:,n) - acu;
             end
         end
+    
+        function ON = toOrthonormalSet(~, OG)
+            [rows, cols] = size(OG);
+            ON = zeros(rows, cols);
+            for i = 1:cols
+                ON(:, i) = OG(:, i) / norm(OG(:, i));
+            end
+        end
     end
 end
