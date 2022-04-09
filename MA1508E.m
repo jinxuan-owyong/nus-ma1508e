@@ -5,6 +5,10 @@ classdef MA1508E
             %u: The vector to project
             %Returns: The projection of u onto A
             [~, w] = size(u);
+            if (det(A) == 0)
+                fprintf("Error: Unable to preform projection. Input matrix is singular.\n");
+                return;
+            end
             if (w ~= 1) 
                 fprintf("Warning: The input vector u has more than one column\n"); 
             end
