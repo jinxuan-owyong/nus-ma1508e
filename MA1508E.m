@@ -1,4 +1,8 @@
 classdef MA1508E
+    properties (Constant)
+        ZERO_TOLERANCE = 10^-6;
+    end
+
     methods
         function b = orthogonalProj(~, A, u)
             %A: The matrix to be projected onto
@@ -15,12 +19,12 @@ classdef MA1508E
             b = A * inv(A'*A) * A' * u;
         end
         
-        function res = isOrthogonalSet(~, S)
+        function res = isOrthogonalSet(obj, S)    
             [~, w] = size(S);
             for i = 1:w
                 for j = i:w
                     if (i == j) continue; end
-                    if dot(S(:, i), S(:, j)) ~= 0
+                    if dot(S(:, i), S(:, j)) > obj.ZERO_TOLERANCE
                         fprintf("The set is not orthogonal\n");
                         res = false;
                         return
@@ -36,7 +40,7 @@ classdef MA1508E
             
             [~, w] = size(S);
             for i = 1:w
-                if (abs(norm(S(:, i)) - 1) >= 0.00001)
+                if (abs(norm(S(:, i)) - 1) > obj.ZERO_TOLERANCE)
                     fprintf("The set is not orthonormal\n");
                     return
                 end
