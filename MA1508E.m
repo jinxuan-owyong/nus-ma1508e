@@ -149,5 +149,52 @@ classdef MA1508E
             fprintf("Get generalised eigenvector from the returned RREF\n")
             v2 = [M v1];
         end
+        
+        function s = generateInitialConditions(~, n)
+            conds = zeros(n, 2);
+            for i = 1:n
+                fprintf("Enter the t value for y%i: ", i);
+                conds(i, 1) = input("");
+                fprintf("Enter the result of y%i(%i): ", i, conds(i, 1));
+                conds(i, 2) = input("");
+            end
+            
+            s = "[";
+            for i = 1:n
+                s = s + "y" + i + "(" + conds(i, 1) + ")==" + conds(i, 2);
+                if i ~= n
+                    s = s + ", ";
+                end
+            end
+            s = s + "]";
+        end
+
+        function res = solveDifferentialSystem(obj, A, isInitial)
+            [rows, ~] = size(A);
+            switch rows
+                case 2
+                    syms y1(t) y2(t);
+                    y = [y1; y2];
+                case 3
+                    syms y1(t) y2(t) y3(t);
+                    y = [y1; y2; y3];
+                case 4
+                    syms y1(t) y2(t) y3(t) y4(t);
+                    y = [y1; y2; y3; y4];
+                case 5
+                    syms y1(t) y2(t) y3(t) y4(t) y5(t);
+                    y = [y1; y2; y3; y4; y5];
+                otherwise
+                    fprintf("Unsupported size.\n");
+                    return;
+            end
+
+            if ~isInitial
+                res = dsolve(diff(y,t) == A * y);
+            else
+                conds = eval(obj.generateInitialConditions(rows));
+                res = dsolve(diff(y,t) == A * y, conds);
+            end
+        end
     end
 end
