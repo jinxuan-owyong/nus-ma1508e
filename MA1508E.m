@@ -124,5 +124,30 @@ classdef MA1508E
                 end
             end
         end
+        
+        function v1 = getEigenvector(~, A, lambda)
+            [rows, cols] = size(A);
+            if rows ~= cols
+                fprintf("Input matrix is not square!\n");
+                return;
+            end
+
+            M = lambda * eye(cols) - A;
+            v1 = null(M, 'r');
+        end
+
+        function v2 = getGeneralisedEigenvector(obj, A, lambda)
+            [rows, cols] = size(A);
+            if rows ~= cols
+                fprintf("Input matrix is not square!\n");
+                return;
+            end
+
+            M = A - lambda * eye(cols);
+            v1 = obj.getEigenvector(A, lambda);
+            
+            fprintf("Get generalised eigenvector from the returned RREF\n")
+            v2 = [M v1];
+        end
     end
 end
