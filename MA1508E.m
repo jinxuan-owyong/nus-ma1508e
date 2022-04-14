@@ -103,5 +103,26 @@ classdef MA1508E
                 T(:, i) = dot(S(:, i), v);
             end
         end
+        
+        function ev = getEigenvalues(~, A)
+            syms x;
+            px = charpoly(A, x);
+            f = factor(px, x);
+            [~, nFactors] = size(f);
+            
+            j = 0;
+            for i = 1:nFactors
+                roots = solve(f(i) == 0, x);
+                nRoots = polynomialDegree(f(i));
+                
+                for k = 1:nRoots
+                    ev(i + j) = roots(k);
+                    % Complex roots
+                    if nRoots > 1 && k < nRoots
+                        j = j + 1;
+                    end
+                end
+            end
+        end
     end
 end
