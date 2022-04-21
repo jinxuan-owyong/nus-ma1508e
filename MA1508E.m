@@ -197,6 +197,20 @@ classdef MA1508E
             end
         end
 
+        function res = isValidERO(~, str)
+            % Match regular expression, includes floating point coefficient
+            isAdd = any(regexp(str, "R\d [+-] \d+.?\d*R\d"));
+            isSwap = any(regexp(str, "R\d S R\d"));
+            isMultiple = any(regexp(str, "-?\d+.?\d*R\d"));
+            
+            if ~isAdd && ~isSwap && ~isMultiple
+                res = false;
+                return;
+            end
+
+            res = true;
+        end
+
         function M = generateElemAdd(~, data)
             M = eye(data.size);
             leftVal = data.left(2);
@@ -220,18 +234,8 @@ classdef MA1508E
         function res = generateElemMatrix(obj, str, n)
             % Process input string
             sp = split(str);
-            
-            % Match regular expression, includes floating point coefficient
-            isAdd = any(regexp(str, "R\d [+-] \d+.?\d*R\d"));
-            isSwap = any(regexp(str, "R\d S R\d"));
-            isMultiple = any(regexp(str, "-?\d+.?\d*R\d"));
-            
-            if ~isAdd && ~isSwap && ~isMultiple
-                fprintf("Invalid ERO.\n");
-                return;
-            end
-            
             [rows, cols] = size(sp);
+
             if rows == 1 && cols == 1
                 data = str2double(split(sp(1), "R"));
                 coe = data(1);
@@ -257,6 +261,27 @@ classdef MA1508E
                     res = obj.generateElemSwap(ero);
                 otherwise
                     fprintf("Something went wrong.\n");
+            end
+        end
+
+        function performERO(obj, A)
+            [rows, ~] = size(A);
+            M = A;
+            command = "";
+            while true
+                command = input("Enter the elementary row operation: ");
+                if command == "quit" 
+                    return;
+                end
+                
+                if ~obj.isValidERO(command)
+                    fprintf("Invalid ERO.\n");
+                    continue;
+                end
+
+                M = obj.generateElemMatrix(command, rows) * M;
+                fprintf("--> %s:\n\n", command);
+                disp(M);
             end
         end
     end
