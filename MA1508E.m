@@ -129,6 +129,11 @@ classdef MA1508E
             end
 
             M = lambda * eye(cols) - A;
+            fprintf("The matrix\n");
+            disp(M);
+            fprintf("is reduced to\n")
+            disp(rref(M));
+            fprintf("Hence the basis for the eigenspace associated with %i is", lambda);
             v1 = null(M, 'r');
         end
 
@@ -332,7 +337,7 @@ classdef MA1508E
                 fprintf("The matrix does not have a right inverse!\n");
                 return;
             end
-            
+
             if rows == cols
                 fprintf("The matrix is square, its inverse is:\n");
                 disp(inv(A));
