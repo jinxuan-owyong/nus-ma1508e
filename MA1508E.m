@@ -280,5 +280,33 @@ classdef MA1508E
                 disp(M);
             end
         end
+
+        function res = calcLSS(~, A, b)
+            [rowsA, ~] = size(A);
+            [rowsB, ~] = size(b);
+            if rowsA ~= rowsB
+                fprintf("Error: Inputs need to have the same number of rows!\n");
+                return;
+            end
+
+            % Calculate least squares solution of Ax = b
+            left = A' * A;
+            right = A' * b;
+            R = rref([left right]);
+            [~, cols] = size(R);
+            v = R(:, cols);
+            p = null(R(:, 1:cols - 1), "r");
+            
+            param = 's';
+            fprintf("The general solution has parameters ");
+            [~, numP] = size(p);
+            for i = 1:numP
+                fprintf("%c, ", param);
+                param = char(param + 1);
+            end
+            fprintf("from columns %i to %i", 2, 1 + numP);
+           
+            res = [v p];
+        end
     end
 end
