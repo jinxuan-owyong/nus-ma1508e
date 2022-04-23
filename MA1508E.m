@@ -308,5 +308,39 @@ classdef MA1508E
            
             res = [v p];
         end
+
+        function LI = leftInverse(~, A)
+            [rows, cols] = size(A);
+            if rows < cols 
+                fprintf("The matrix does not have a left inverse!\n");
+                return;
+            end
+
+            if rows == cols
+                fprintf("The matrix is square, its inverse is:\n");
+                LI = inv(A);
+                return
+            end
+            
+            fprintf("The left inverse of the matrix exists.")
+            LI = inv(A' * A) * A';
+        end
+
+        function RI = rightInverse(~, A)
+            [rows, cols] = size(A);
+            if rows > cols 
+                fprintf("The matrix does not have a right inverse!\n");
+                return;
+            end
+            
+            if rows == cols
+                fprintf("The matrix is square, its inverse is:\n");
+                disp(inv(A));
+                return
+            end
+            
+            fprintf("The right inverse of the matrix exists.")
+            RI = A' * inv(A * A');
+        end
     end
 end
