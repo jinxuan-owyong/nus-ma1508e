@@ -265,13 +265,14 @@ classdef MA1508E
             end
         end
 
-        function performERO(obj, A)
+        function res = performERO(obj, A)
             [rows, ~] = size(A);
             M = A;
             command = "";
             while true
                 command = input("Enter the elementary row operation: ");
-                if command == "quit" 
+                if command == "quit"
+                    res = M;
                     return;
                 end
                 
