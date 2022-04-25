@@ -199,11 +199,17 @@ classdef MA1508E
         end
 
         function res = isValidERO(~, str)
-            % Match regular expression, includes floating point coefficient
-            isAdd = any(regexp(str, "R\d [+-] \d+.?\d*R\d"));
-            isSwap = any(regexp(str, "R\d S R\d"));
-            isMultiple = any(regexp(str, "-?\d+.?\d*R\d"));
+            % Match regular expression, includes floating point coefficient            
+            [addStart, addEnd] = regexp(str, "R\d [+-] \d+.?\d*R\d");
+            [swapStart, swapEnd] = regexp(str, "R\d S R\d");
+            [multipleStart, multipleEnd] = regexp(str, "-?\d+.?\d*R\d");
             
+            % Check if input string is exactly the length of the match
+            len = strlength(str);
+            isAdd = any(addStart == 1) && ((addEnd - addStart + 1) == len);
+            isSwap = any(swapStart == 1) && ((swapEnd - swapStart + 1) == len);
+            isMultiple = any(multipleStart == 1) && ((multipleEnd - multipleStart + 1) == len);
+
             if ~isAdd && ~isSwap && ~isMultiple
                 res = false;
                 return;
