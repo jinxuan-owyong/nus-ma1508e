@@ -86,16 +86,16 @@ classdef MA1508E
         end
 
         function T = dotWithSet(~, S, v)
-            [S_rows, S_cols] = size(S);
-            [v_rows, ~] = size(v);
+            [rowsS, colsS] = size(S);
+            [rowsV, ~] = size(v);
             
-            if S_rows ~= v_rows
+            if rowsS ~= rowsV
                fprintf("Error: v does not have the same number of rows as S!\n");
                return;
             end
             
-            T = zeros(1, S_cols);
-            for i = 1:S_cols
+            T = zeros(1, colsS);
+            for i = 1:colsS
                 T(:, i) = dot(S(:, i), v);
             end
         end
