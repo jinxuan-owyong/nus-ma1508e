@@ -121,10 +121,33 @@ classdef MA1508E
             end
         end
         
-        function v1 = getEigenvector(~, A, lambda)
+        function res = isAssociatedEigenvalue(obj, A, lambda)
+            ev = obj.getEigenvalues(A);
+            valid = false;
+            for i = 1:size(ev')
+                if lambda == ev(i)
+                    valid = true;
+                    break;
+                end
+            end
+
+            if ~valid
+                fprintf("Eigenvalue %i is not associated with the matrix!\n", lambda);
+                fprintf("The following eigenvalues are associated with the matrix: ");
+                disp(ev);
+            end
+
+            res = valid;
+        end
+
+        function v1 = getEigenvector(obj, A, lambda)
             [rows, cols] = size(A);
             if rows ~= cols
                 fprintf("Input matrix is not square!\n");
+                return;
+            end
+
+            if ~obj.isAssociatedEigenvalue(A, lambda)
                 return;
             end
 
@@ -141,6 +164,10 @@ classdef MA1508E
             [rows, cols] = size(A);
             if rows ~= cols
                 fprintf("Input matrix is not square!\n");
+                return;
+            end
+            
+            if ~obj.isAssociatedEigenvalue(A, lambda)
                 return;
             end
 
