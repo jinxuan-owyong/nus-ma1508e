@@ -140,7 +140,14 @@ classdef MA1508E
             res = valid;
         end
 
-        function v1 = getEigenvector(obj, A, lambda)
+        function v1 = getEigenvector(obj, A, lambda, output)
+            arguments
+                obj;
+                A double;
+                lambda double;
+                output logical = true;
+            end
+
             [rows, cols] = size(A);
             if rows ~= cols
                 fprintf("Input matrix is not square!\n");
@@ -150,14 +157,17 @@ classdef MA1508E
             if ~obj.isAssociatedEigenvalue(A, lambda)
                 return;
             end
-
+            
             M = lambda * eye(cols) - A;
-            fprintf("The matrix\n");
-            disp(M);
-            fprintf("is reduced to\n")
-            disp(rref(M));
-            fprintf("Hence the basis for the eigenspace associated with %i is", lambda);
             v1 = null(M, 'r');
+
+            if output
+                fprintf("The matrix\n");
+                disp(M);
+                fprintf("is reduced to\n")
+                disp(rref(M));
+                fprintf("Hence the basis for the eigenspace associated with %i is", lambda);
+            end
         end
 
         function v2 = getGeneralisedEigenvector(obj, A, lambda)
@@ -172,10 +182,10 @@ classdef MA1508E
             end
 
             M = A - lambda * eye(cols);
-            v1 = obj.getEigenvector(A, lambda);
+            v1 = obj.getEigenvector(A, lambda, false);
             
-            fprintf("Get generalised eigenvector from the returned RREF\n")
-            v2 = [M v1];
+            fprintf("\nGet generalised eigenvector from the returned RREF\n")
+            v2 = rref([M v1]);
         end
         
         function s = generateInitialConditions(~, n)
