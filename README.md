@@ -1,34 +1,46 @@
 # MATLAB Shortcuts for Linear Algebra
 
+## Setup 
+
+```sh
+git clone https://github.com/jinxuan-owyong/nus-ma1508e.git
+cd nus-ma1508e
+matlab MA1508E.m
+```
+
 ## Usage
 
-- Change MATLAB directory to the one containing `MA1508E.m`
-
-- Initialise class instance:
+Initialise class instance:
 
   ```MATLAB
-  >> m = MA1508E();
+  m = MA1508E();
   ```
 
+Call the desired [method](#methods)
+
+  ``` MATLAB
+  m.leftInverse(A);
+  ```
+  
 **Example**
 
+$$S = \begin{Bmatrix} \begin{pmatrix} 1 \\\ 1 \\\ 1 \end{pmatrix},\begin{pmatrix} 0 \\\ 1 \\\ -1 \end{pmatrix},\begin{pmatrix} -2 \\\ 1 \\\ 1 \end{pmatrix}\end{Bmatrix}$$
 To check if a set of vectors S is orthogonal
-<img src="https://latex.codecogs.com/svg.image?\begin{Bmatrix}\begin{pmatrix}&space;1&space;\\&space;1&space;\\&space;1\end{pmatrix},\begin{pmatrix}&space;0&space;\\&space;1&space;\\&space;-1\end{pmatrix},\begin{pmatrix}&space;-2&space;\\&space;1&space;\\&space;1\end{pmatrix}\end{Bmatrix}&space;" title="https://latex.codecogs.com/svg.image?\begin{Bmatrix}\begin{pmatrix} 1 \\ 1 \\ 1\end{pmatrix},\begin{pmatrix} 0 \\ 1 \\ -1\end{pmatrix},\begin{pmatrix} -2 \\ 1 \\ 1\end{pmatrix}\end{Bmatrix} " />
 
 Input:
 
 ```MATLAB
->> A = [1 0 -2; 1 1 1; 1 -1 1];
->> m.isOrthogonalSet(A);
+A = [1 0 -2; 1 1 1; 1 -1 1];
+m.isOrthogonalSet(A);
 ```
 
 Output:
 
-```MATLAB
->> The set is orthogonal
+```
+The set is orthogonal
 ```
 
-## Functions
+## Methods
 
 **Chapter 1: Linear Systems**
 | Method                                    | Parameters                                                                                                                                      | Description                                                                                                                                                                                                                  |
