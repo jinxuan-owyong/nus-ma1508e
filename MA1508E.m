@@ -118,7 +118,7 @@ classdef MA1508E
                 return
             end
             
-            fprintf("The left inverse of the matrix exists.")
+            fprintf("The left inverse of the matrix exists.\n")
             LI = inv(A' * A) * A';
         end
 
@@ -135,7 +135,7 @@ classdef MA1508E
                 return
             end
             
-            fprintf("The right inverse of the matrix exists.")
+            fprintf("The right inverse of the matrix exists.\n")
             RI = A' * inv(A * A');
         end
         
