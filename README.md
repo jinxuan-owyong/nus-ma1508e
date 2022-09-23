@@ -25,6 +25,7 @@ Call the desired [method](#methods)
 **Example**
 
 $$S = \begin{Bmatrix} \begin{pmatrix} 1 \\\ 1 \\\ 1 \end{pmatrix},\begin{pmatrix} 0 \\\ 1 \\\ -1 \end{pmatrix},\begin{pmatrix} -2 \\\ 1 \\\ 1 \end{pmatrix}\end{Bmatrix}$$
+
 To check if a set of vectors S is orthogonal
 
 Input:
