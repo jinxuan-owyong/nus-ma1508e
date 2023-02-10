@@ -1,4 +1,4 @@
-# MATLAB Shortcuts for Linear Algebra
+# MATLAB for Linear Algebra
 
 ## Setup 
 
